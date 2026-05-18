@@ -15,6 +15,8 @@ const numPt = 55;
 let stepRad = 2 * Math.PI  / numPt;
 
 let rad = 0;
+let lastX = null;
+let lastY = null;
 
 onMounted(() => {
     p5Instance = new p5((p) => {
@@ -35,43 +37,51 @@ onBeforeUnmount(() => {
 
 function setup(p)
 {
-	p.createCanvas(720, 400);
+    p.createCanvas(720, 400);
 
-	p.colorMode(p.HSB);
-	p.textSize(20);
+    p.background(0);
+    p.colorMode(p.HSB);
+    p.textSize(20);
 
-	p.noLoop();
+    p.stroke('white');
+    p.strokeWeight(2);
+
+    p.noLoop();
 }
 
 function draw(p)
 {
-    p.background(0);
+    let r = Math.cos(props.n * rad / props.d);
 
-    if (rad > 2 * Math.PI)
-    	return;
+    let scale = 150;
 
-    let val = Math.cos(1.0 * props.n * rad / props.d);
+    let x = p.width / 2 + scale * r * Math.cos(rad);
+    let y = p.height / 2 + scale * r * Math.sin(rad);
 
-    console.log(val);
+    if (lastX !== null && lastY !== null) {
+        p.line(lastX, lastY, x, y);
+    }
+
+    lastX = x;
+    lastY = y;
 
     rad += stepRad;
 
-	p.stroke('white');
-  	p.strokeWeight(5);
-
-    p.line(20, 20, 100, 100);
-
-    p.describe('circle in center');
+    if (rad > 2 * Math.PI * props.d) {
+        p.noLoop();
+    }
 }
 
 function mousePressed(p)
 {
-    if (p.isLooping()) {
-        p.noLoop();
-    }
-    else {
-        p.loop();
-    }
+    rad = 0;
+
+    lastX = null;
+    lastY = null;
+
+    p.background(0);
+
+    p.loop();
 }
 
 function keyPressed(p)
