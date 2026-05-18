@@ -3,17 +3,16 @@ import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import p5 from 'p5';
 
 const props = defineProps({
-    n: Number,
-    d: Number,
+    state: Object,
 });
 
 const canvasContainer = ref(null);
 
 let p5Instance = null;
 
-const numPt = 55;
-let stepRad = 2 * Math.PI  / numPt;
+let stepRad = 2 * Math.PI  / props.state.numPoints;
 
+let canvas = null;
 let rad = 0;
 let lastX = null;
 let lastY = null;
@@ -23,7 +22,6 @@ onMounted(() => {
 
         p.setup = () => setup(p);
         p.draw = () => draw(p);
-        p.mousePressed = () => mousePressed(p);
         p.keyPressed = () => keyPressed(p);
 
     }, canvasContainer.value);
@@ -36,7 +34,7 @@ onBeforeUnmount(() => {
 });
 
 watch(
-    () => [props.n, props.d],
+    () => [props.state.n, props.state.d],
     () => {
         restartDrawing();
     }
@@ -44,7 +42,10 @@ watch(
 
 function setup(p)
 {
-    p.createCanvas(720, 400);
+    canvas = p.createCanvas(720, 400);
+    canvas.mousePressed(() => {
+        mousePressed(p);
+    });
 
     p.background(0);
     p.colorMode(p.HSB);
@@ -58,7 +59,7 @@ function setup(p)
 
 function draw(p)
 {
-    let r = Math.cos(props.n * rad / props.d);
+    let r = Math.cos(props.state.n * rad / props.state.d);
 
     let scale = 150;
 
@@ -74,7 +75,7 @@ function draw(p)
 
     rad += stepRad;
 
-    if (rad > 2 * Math.PI * props.d) {
+    if (rad > 2 * Math.PI * props.state.d) {
         p.noLoop();
     }
 }
