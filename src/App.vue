@@ -6,14 +6,14 @@ import Canvas from './components/Canvas.vue';
 let state = reactive({
   n: 1,
   d: 1,
-  numPoints: 55,
+  numPoints: 35,
   animate: true,
 });
 
 </script>
 
 <template>
-  <div class="grid grid-cols-6 gap-4">
+  <div class="grid grid-cols-4 gap-4">
     <Editors :state="state" />
     <Canvas :state="state" />
   </div>

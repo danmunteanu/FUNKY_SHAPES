@@ -9,11 +9,11 @@ const props = defineProps({
 const canvasContainer = ref(null);
 
 let p5Instance = null;
+let canvas = null;
 
+let rad = 0;
 let stepRad = 2 * Math.PI  / props.state.numPoints;
 
-let canvas = null;
-let rad = 0;
 let lastX = null;
 let lastY = null;
 
@@ -25,6 +25,7 @@ onMounted(() => {
         p.keyPressed = () => keyPressed(p);
 
     }, canvasContainer.value);
+
 });
 
 onBeforeUnmount(() => {
@@ -34,7 +35,7 @@ onBeforeUnmount(() => {
 });
 
 watch(
-    () => [props.state.n, props.state.d],
+    () => [props.state.n, props.state.d, props.state.numPoints],
     () => {
         restartDrawing();
     }
@@ -55,6 +56,8 @@ function setup(p)
     p.strokeWeight(2);
 
     p.noLoop();
+
+    restartDrawing();
 }
 
 function draw(p)
@@ -97,9 +100,21 @@ function restartDrawing()
     lastX = null;
     lastY = null;
 
-    if (p5Instance) {
-        p5Instance.background(0);
+    if (!p5Instance) {
+        return;
+    }
+
+    p5Instance.background(0);
+
+    p5Instance.noLoop();
+
+    if (props.state.animate) {
         p5Instance.loop();
+    }
+    else {
+        while (rad <= 2 * Math.PI * props.state.d) {
+            draw(p5Instance);
+        }
     }
 }
 </script>
