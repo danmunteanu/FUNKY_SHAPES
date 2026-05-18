@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import p5 from 'p5';
 
 const props = defineProps({
@@ -34,6 +34,13 @@ onBeforeUnmount(() => {
         p5Instance.remove();
     }
 });
+
+watch(
+    () => [props.n, props.d],
+    () => {
+        restartDrawing();
+    }
+);
 
 function setup(p)
 {
@@ -74,14 +81,7 @@ function draw(p)
 
 function mousePressed(p)
 {
-    rad = 0;
-
-    lastX = null;
-    lastY = null;
-
-    p.background(0);
-
-    p.loop();
+    restartDrawing();
 }
 
 function keyPressed(p)
@@ -89,16 +89,28 @@ function keyPressed(p)
     p.redraw();
 }
 
+function restartDrawing()
+{
+    rad = 0;
+
+    lastX = null;
+    lastY = null;
+
+    if (p5Instance) {
+        p5Instance.background(0);
+        p5Instance.loop();
+    }
+}
 </script>
 
 <template>
     <div>
         <div class="text-2xl mb-4">
             Canvas
-            
         </div>
 
         <div ref="canvasContainer"></div>
-        <pre>{{props}}</pre>
+
+        <!-- <pre>{{props}}</pre> -->
     </div>
 </template>
