@@ -11,8 +11,8 @@ const props = defineProps({
 const canvasContainer = ref(null);
 
 let p5Instance = null;
-let canvas = null;
 
+let finished = false;
 let rad = 0;
 
 const stepRad = computed(() => {
@@ -59,7 +59,7 @@ function setup(p)
     //  Create canvas
     const width = canvasContainer.value.clientWidth;
     const height = canvasContainer.value.clientHeight;
-    canvas = p.createCanvas(width, height);
+    const canvas = p.createCanvas(width, height);
     
     //  Make the canvas scrollable
     canvas.elt.style.pointerEvents = 'none';
@@ -68,7 +68,6 @@ function setup(p)
     p.background(255);
     p.colorMode(p.HSB);
     p.textSize(20);
-    p.colorMode(p.HSB);
     p.stroke('blue');
     p.strokeWeight(3);
 
@@ -82,12 +81,20 @@ function draw(p)
 {
     for (let i = 0; i < props.state.stepsPerFrame; i++) {
 
-        let r = Math.cos(props.state.n * rad / props.state.d);
+        if (finished) {
+            p.noLoop();
+            break;
+        }
+
+        const endRad = 2 * Math.PI * props.state.d;
+        const currentRad = Math.min(rad, endRad);
+
+        let r = Math.cos(props.state.n * currentRad / props.state.d);
 
         let scale = 150;
 
-        let x = p.width / 2 + scale * r * Math.cos(rad);
-        let y = p.height / 2 + scale * r * Math.sin(rad);
+        let x = p.width / 2 + scale * r * Math.cos(currentRad);
+        let y = p.height / 2 + scale * r * Math.sin(currentRad);
 
         if (lastX !== null && lastY !== null) {
             p.line(lastX, lastY, x, y);
@@ -96,15 +103,15 @@ function draw(p)
         lastX = x;
         lastY = y;
 
-        rad += stepRad.value;
-
-        if (rad > 2 * Math.PI * props.state.d) {
+        if (currentRad >= endRad) {
+            finished = true;
             p.noLoop();
             break;
         }
+
+        rad += stepRad.value;
     }
 }
-
 function resizeCanvas()
 {
     if (!p5Instance || !canvasContainer.value) {
@@ -121,8 +128,8 @@ function resizeCanvas()
 
 function restartDrawing()
 {
-    //  reset angle
     rad = 0;
+    finished = false;
 
     lastX = null;
     lastY = null;
@@ -132,16 +139,13 @@ function restartDrawing()
     }
 
     p5Instance.background(255);
-
     p5Instance.noLoop();
 
     if (props.state.animate) {
-        //  Animate shape
         p5Instance.loop();
     }
     else {
-        //  Instant draw shape
-        while (rad <= 2 * Math.PI * props.state.d) {
+        while (!finished) {
             draw(p5Instance);
         }
     }
@@ -182,7 +186,7 @@ function downloadCanvas()
             <div class="h-full min-h-0">
                 <div
                     ref="canvasContainer"
-                    class="w-full h-full min-h-[480px] touch-pan-y"
+                    class="w-full h-full min-h-[480px]"
                 />
             </div>
         </template>
