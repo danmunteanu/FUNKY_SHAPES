@@ -14,16 +14,18 @@ let state = reactive({
   max_d: 16,
   max_num: 155,
 
+  stepsPerFrame: 5,
+
 });
 
 </script>
 
 <template>
-  <div class="h-screen grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 px-5 mt-5">
+  <div class="h-dvh grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 md:gap-4 px-5 mt-5">
     <div class="col-span-1 h-full">
       <Editors :state="state" />
     </div>
-    <div class="col-span-2 h-full">
+    <div class="col-span-2 h-full md:mt-0 mt-5">
       <Canvas :state="state" />
     </div>
   </div>

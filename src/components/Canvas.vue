@@ -2,6 +2,7 @@
 import { ref, watch, computed, onMounted, onBeforeUnmount } from 'vue';
 import p5 from 'p5';
 import Card from 'primevue/card';
+import Button from 'primevue/button';
 
 const props = defineProps({
     state: Object,
@@ -26,7 +27,7 @@ onMounted(() => {
 
         p.setup = () => setup(p);
         p.draw = () => draw(p);
-        p.keyPressed = () => keyPressed(p);
+        // p.keyPressed = () => keyPressed(p);
 
     }, canvasContainer.value);
 
@@ -77,35 +78,39 @@ function setup(p)
 
 function draw(p)
 {
-    let r = Math.cos(props.state.n * rad / props.state.d);
+    for (let i = 0; i < props.state.stepsPerFrame; i++) {
 
-    let scale = 150;
+        let r = Math.cos(props.state.n * rad / props.state.d);
 
-    let x = p.width / 2 + scale * r * Math.cos(rad);
-    let y = p.height / 2 + scale * r * Math.sin(rad);
+        let scale = 150;
 
-    if (lastX !== null && lastY !== null) {
-        p.line(lastX, lastY, x, y);
-    }
+        let x = p.width / 2 + scale * r * Math.cos(rad);
+        let y = p.height / 2 + scale * r * Math.sin(rad);
 
-    lastX = x;
-    lastY = y;
+        if (lastX !== null && lastY !== null) {
+            p.line(lastX, lastY, x, y);
+        }
 
-    rad += stepRad.value;
+        lastX = x;
+        lastY = y;
 
-    if (rad > 2 * Math.PI * props.state.d) {
-        p.noLoop();
+        rad += stepRad.value;
+
+        if (rad > 2 * Math.PI * props.state.d) {
+            p.noLoop();
+            break;
+        }
     }
 }
 
 function mousePressed(p)
 {
-    restartDrawing();
+    // restartDrawing();
 }
 
 function keyPressed(p)
 {
-    p.redraw();
+    // p.redraw();
 }
 
 function resizeCanvas()
@@ -146,20 +151,43 @@ function restartDrawing()
         }
     }
 }
+
+function downloadCanvas()
+{
+    if (!p5Instance) {
+        return;
+    }
+
+    p5Instance.saveCanvas('funky-shape', 'png');
+}
 </script>
 
 <template>
     <!-- <pre>{{ props }}</pre> -->
     <Card class="flex flex-col">
         <template #title>
-            Canvas
+            <div class="flex items-center">
+                <div class="text-xl font-semibold">
+                    Canvas
+                </div>
+
+                <div class="grow"></div>
+
+                <Button
+                    size="small"
+                    severity="info"
+                    label="Download"
+                    class="uppercase"
+                    @click="downloadCanvas"
+                />
+            </div>
         </template>
 
         <template #content>
             <div class="h-full min-h-0">
                 <div
                     ref="canvasContainer"
-                    class="w-full h-full min-h-[480px]"
+                    class="w-full h-full min-h-[480px] touch-pan-y"
                 />
             </div>
         </template>

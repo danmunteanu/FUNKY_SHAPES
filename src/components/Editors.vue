@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import InputNumber from 'primevue/inputnumber';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
@@ -7,9 +7,24 @@ import Checkbox from 'primevue/checkbox';
 import Slider from 'primevue/slider';
 import Card from 'primevue/card';
 import FloatLabel from 'primevue/floatlabel';
+import SelectButton from 'primevue/selectbutton';
 
 const props = defineProps({
     state: Object,
+});
+
+const options = [
+    { 'label': 'Slow', 'value': 5 },
+    { 'label': 'Fast', 'value': 15 },
+    { 'label': 'Turbo', 'value': 40 },
+];
+
+const speed = ref(options[1].value);
+
+watch(speed, (value) => {
+    props.state.stepsPerFrame = value;
+}, {
+    immediate: true
 });
 
 </script>
@@ -95,6 +110,18 @@ const props = defineProps({
                         Animate
                     </label>
                 </div>
+
+                <SelectButton
+                    :disabled="!state.animate"
+                    class="col-span-2 mt-3"
+                    inputId="speed"
+                    v-model="speed"
+                    :options="options"
+                    optionLabel="label"
+                    optionValue="value"
+                    :allowEmpty="false"
+                    fluid
+                />
             </div>
         </template>
     </Card>
