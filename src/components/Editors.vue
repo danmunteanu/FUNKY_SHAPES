@@ -11,11 +11,6 @@ const props = defineProps({
     state: Object,
 });
 
-const emit = defineEmits([
-    'update:state.n',
-    'update:state.d',
-]);
-
 </script>
 
 <template>
@@ -70,6 +65,7 @@ const emit = defineEmits([
                 />
             </div>
         </template>
+
         <template #footer>
             <div class="grid grid-cols-2 md:grid-cols-1 xl:flex xl:items-center xl:gap-6 mt-10">
                 <div class="flex items-center gap-2">
@@ -91,11 +87,12 @@ const emit = defineEmits([
                     <InputNumber
                         v-model="props.state.numPoints"
                         id="number_num_points"
-                        :min="5"
-                        :max="55"
+                        :min="25"
+                        :max="state.max_num"
                         :step="5"
                         showButtons
                         fluid
+                        highlightOnFocus
                     />
                 </div>
             </div>

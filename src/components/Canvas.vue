@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
+import { ref, watch, computed, onMounted, onBeforeUnmount } from 'vue';
 import p5 from 'p5';
 import Card from 'primevue/card';
 
@@ -13,7 +13,10 @@ let p5Instance = null;
 let canvas = null;
 
 let rad = 0;
-let stepRad = 2 * Math.PI  / props.state.numPoints;
+
+const stepRad = computed(() => {
+    return 2 * Math.PI / props.state.numPoints;
+});
 
 let lastX = null;
 let lastY = null;
@@ -44,7 +47,6 @@ watch(
         props.state.d, 
         props.state.numPoints
     ], () => {
-        stepRad = 2 * Math.PI  / props.state.numPoints
         restartDrawing();
     }
 );
@@ -89,7 +91,7 @@ function draw(p)
     lastX = x;
     lastY = y;
 
-    rad += stepRad;
+    rad += stepRad.value;
 
     if (rad > 2 * Math.PI * props.state.d) {
         p.noLoop();
@@ -157,7 +159,7 @@ function restartDrawing()
             <div class="h-full min-h-0">
                 <div
                     ref="canvasContainer"
-                    class="w-full h-full min-h-[500px]"
+                    class="w-full h-full min-h-[480px]"
                 />
             </div>
         </template>

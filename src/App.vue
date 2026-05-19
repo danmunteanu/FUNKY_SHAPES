@@ -3,13 +3,17 @@ import { reactive } from 'vue';
 import Editors from './components/Editors.vue';
 import Canvas from './components/Canvas.vue';
 
+//  Shared state
 let state = reactive({
   n: 2,
   d: 1,
-  numPoints: 55,
-  animate: false,
+  numPoints: 155,
+  animate: false,  
+
   max_n: 16,
   max_d: 16,
+  max_num: 155,
+
 });
 
 </script>
