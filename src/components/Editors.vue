@@ -14,7 +14,7 @@ const props = defineProps({
 });
 
 const speedOptions = [
-    { 'label': 'Slow', 'value': 5 },
+    { 'label': 'Slow', 'value': 1 },
     { 'label': 'Fast', 'value': 15 },
     { 'label': 'Turbo', 'value': 40 },
 ];

@@ -2,14 +2,15 @@
 import { reactive } from 'vue';
 import Editors from './components/Editors.vue';
 import Canvas from './components/Canvas.vue';
+import Options from './components/Options.vue';
 
 //  Shared state
 let state = reactive({
   n: 2,
   d: 1,
 
-  max_n: 12,
-  max_d: 12,
+  max_n: 6,
+  max_d: 6,
   max_num: 155,
 
   precisionPoints: 155,
@@ -26,6 +27,9 @@ let state = reactive({
     </div>
     <div class="col-span-2 h-full md:mt-0 mt-5">
       <Canvas :state="state" />
+    </div>
+    <div class="col-span-1 h-full">
+      <Options :state="state" />
     </div>
   </div>
 </template>
