@@ -22,68 +22,75 @@ const emit = defineEmits([
     <Card>
         <template #title>Editors</template>
         <template #content>
-            <div class="flex gap-6 mt-3">
-                <div class="w-32 flex-none shadow-xl">
-                    <InputGroup>
-                        <InputGroupAddon>
-                            <label for="number_n">N:</label>
-                        </InputGroupAddon>
-                        <InputNumber
-                            v-model="props.state.n"
-                            id="number_n"
-                            :min="1"
-                            :max="state.max_n"
-                            showButtons
-                            highlightOnFocus
-                        />
-                    </InputGroup>
-                </div>
-                <div class="flex-auto mt-5">
-                    <Slider v-model="props.state.n" :min="1" :max="state.max_n" fluid/>
-                </div>
-            </div>
+            <div class="grid grid-cols-2 md:grid-cols-1 xl:grid-cols-2 gap-4 items-center">
+                <InputGroup class="w-full min-w-0">
+                    <InputGroupAddon>
+                        <label for="number_n">N:</label>
+                    </InputGroupAddon>
 
-            <div class="flex gap-6 mt-5 mb-5">
-                <div class="w-32 shadow-xl">
-                    <InputGroup>
-                        <InputGroupAddon>
-                            <label for="number_d">D:</label>
-                        </InputGroupAddon>
-                        <InputNumber
-                            v-model="props.state.d"
-                            id="number_d"
-                            :min="1"
-                            :max="state.max_d"
-                            showButtons
-                            highlightOnFocus
-                        />
-                    </InputGroup>
-                </div>
-                <div class="flex-auto">
-                    <Slider v-model="props.state.d" :min="1" :max="state.max_d" class="mt-5"/>
-                </div>
+                    <InputNumber
+                        v-model="props.state.n"
+                        id="number_n"
+                        :min="1"
+                        :max="state.max_n"
+                        showButtons
+                        highlightOnFocus
+                        fluid
+                    />
+                </InputGroup>
+
+                <Slider
+                    v-model="props.state.n"
+                    :min="1"
+                    :max="state.max_n"
+                    class="w-full min-w-0 md:mt-3 md:mb-3"
+                />
+
+                <InputGroup class="w-full min-w-0">
+                    <InputGroupAddon>
+                        <label for="number_d">D:</label>
+                    </InputGroupAddon>
+
+                    <InputNumber
+                        v-model="props.state.d"
+                        id="number_d"
+                        :min="1"
+                        :max="state.max_d"
+                        showButtons
+                        highlightOnFocus
+                        fluid
+                    />
+                </InputGroup>
+
+                <Slider
+                    v-model="props.state.d"
+                    :min="1"
+                    :max="state.max_d"
+                    class="w-full min-w-0 md:mt-3 md:mb-3"
+                />
             </div>
         </template>
         <template #footer>
-            <div class="flex gap-6 items-center">
-                <div class="w-32 flex-none">
+            <div class="grid grid-cols-2 md:grid-cols-1 xl:flex xl:items-center xl:gap-6 mt-10">
+                <div class="flex items-center gap-2">
                     <Checkbox
-                        v-model="state.animate"
+                        v-model="props.state.animate"
                         inputId="animate"
                         name="animate"
                         binary
                     />
+
                     <label for="animate">
                         Animate
                     </label>
                 </div>
-                <div class="grow">
 
-                </div>
-                <div class="w-32 shadow-xl">
+                <div class="hidden xl:block xl:grow"></div>
+
+                <div class="w-32">
                     <InputNumber
                         v-model="props.state.numPoints"
-                        id="number_d"
+                        id="number_num_points"
                         :min="5"
                         :max="55"
                         :step="5"
