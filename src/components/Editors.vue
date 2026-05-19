@@ -6,6 +6,7 @@ import InputGroupAddon from 'primevue/inputgroupaddon';
 import Checkbox from 'primevue/checkbox';
 import Slider from 'primevue/slider';
 import Card from 'primevue/card';
+import FloatLabel from 'primevue/floatlabel';
 
 const props = defineProps({
     state: Object,
@@ -17,7 +18,7 @@ const props = defineProps({
     <Card>
         <template #title>Editors</template>
         <template #content>
-            <div class="grid grid-cols-2 md:grid-cols-1 xl:grid-cols-2 gap-4 items-center">
+            <div class="grid grid-cols-2 md:grid-cols-1 xl:grid-cols-2 gap-4 items-center mt-3">
                 <InputGroup class="w-full min-w-0">
                     <InputGroupAddon>
                         <label for="number_n">N:</label>
@@ -67,23 +68,8 @@ const props = defineProps({
         </template>
 
         <template #footer>
-            <div class="grid grid-cols-2 md:grid-cols-1 xl:flex xl:items-center xl:gap-6 mt-10">
-                <div class="flex items-center gap-2">
-                    <Checkbox
-                        v-model="props.state.animate"
-                        inputId="animate"
-                        name="animate"
-                        binary
-                    />
-
-                    <label for="animate">
-                        Animate
-                    </label>
-                </div>
-
-                <div class="hidden xl:block xl:grow"></div>
-
-                <div class="w-32">
+            <div class="grid grid-cols-2 md:grid-cols-1 xl:grid-cols-2 gap-4 items-center mt-10">
+                <FloatLabel>
                     <InputNumber
                         v-model="props.state.numPoints"
                         id="number_num_points"
@@ -94,6 +80,20 @@ const props = defineProps({
                         fluid
                         highlightOnFocus
                     />
+                    <label for="number_num_points">Precision points</label>
+                </FloatLabel>
+
+                <div class="flex items-center justify-center gap-2">
+                    <Checkbox
+                        v-model="props.state.animate"
+                        inputId="animate"
+                        name="animate"
+                        binary
+                    />
+
+                    <label for="animate">
+                        Animate
+                    </label>
                 </div>
             </div>
         </template>
