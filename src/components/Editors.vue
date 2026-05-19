@@ -13,16 +13,30 @@ const props = defineProps({
     state: Object,
 });
 
-const options = [
+const speedOptions = [
     { 'label': 'Slow', 'value': 5 },
     { 'label': 'Fast', 'value': 15 },
     { 'label': 'Turbo', 'value': 40 },
 ];
 
-const speed = ref(options[1].value);
+const speed = ref(speedOptions[1].value);
 
 watch(speed, (value) => {
     props.state.stepsPerFrame = value;
+}, {
+    immediate: true
+});
+
+const precisionOptions = [
+    { label: 'Low', value: 30 },
+    { label: 'Medium', value: 70 },
+    { label: 'High', value: 150 },
+];
+
+const precision = ref(precisionOptions[1].value);
+
+watch(precision, (value) => {
+    props.state.precisionPoints = value;
 }, {
     immediate: true
 });
@@ -31,7 +45,9 @@ watch(speed, (value) => {
 
 <template>
     <Card>
-        <template #title>Editors</template>
+        <template #title>
+            <div class="font-semibold text-xl">Editors</div>
+        </template>
         <template #content>
             <div class="grid grid-cols-2 md:grid-cols-1 xl:grid-cols-2 gap-4 items-center mt-3">
                 <InputGroup class="w-full min-w-0">
@@ -80,48 +96,49 @@ watch(speed, (value) => {
                     class="w-full min-w-0 md:mt-3 md:mb-3"
                 />
             </div>
-        </template>
 
-        <template #footer>
-            <div class="grid grid-cols-2 md:grid-cols-1 xl:grid-cols-2 gap-4 items-center mt-10">
-                <FloatLabel>
-                    <InputNumber
-                        v-model="props.state.numPoints"
-                        id="number_num_points"
-                        :min="25"
-                        :max="state.max_num"
-                        :step="5"
-                        showButtons
+            <div class="card flex flex-col gap-4 mt-8">
+                <div class="flex flex-col gap-2">
+                    <label for="precision">Precision</label>
+                    <SelectButton
+                        class="col-span-2"
+                        inputId="precision"
+                        v-model="precision"
+                        :options="precisionOptions"
+                        optionLabel="label"
+                        optionValue="value"
+                        :allowEmpty="false"
+                        size="small"
                         fluid
-                        highlightOnFocus
                     />
-                    <label for="number_num_points">Precision points</label>
-                </FloatLabel>
-
-                <div class="flex items-center justify-center gap-2">
-                    <Checkbox
-                        v-model="props.state.animate"
-                        inputId="animate"
-                        name="animate"
-                        binary
-                    />
-
-                    <label for="animate">
-                        Animate
-                    </label>
                 </div>
 
-                <SelectButton
-                    :disabled="!state.animate"
-                    class="col-span-2 mt-3"
-                    inputId="speed"
-                    v-model="speed"
-                    :options="options"
-                    optionLabel="label"
-                    optionValue="value"
-                    :allowEmpty="false"
-                    fluid
-                />
+                <div class="flex flex-col gap-2 mt-2">
+                    <div class="flex items-center justify-start gap-2">
+                        <Checkbox
+                            v-model="props.state.animate"
+                            inputId="animate"
+                            name="animate"
+                            binary
+                        />
+
+                        <label for="animate">
+                            Animate
+                        </label>
+                    </div>
+                    <SelectButton
+                        :disabled="!state.animate"
+                        class="col-span-2"
+                        inputId="speed"
+                        v-model="speed"
+                        :options="speedOptions"
+                        optionLabel="label"
+                        optionValue="value"
+                        :allowEmpty="false"
+                        size="small"
+                        fluid
+                    />
+                </div>
             </div>
         </template>
     </Card>

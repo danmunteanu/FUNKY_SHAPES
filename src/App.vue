@@ -7,15 +7,14 @@ import Canvas from './components/Canvas.vue';
 let state = reactive({
   n: 2,
   d: 1,
-  numPoints: 155,
-  animate: false,  
 
-  max_n: 16,
-  max_d: 16,
+  max_n: 12,
+  max_d: 12,
   max_num: 155,
 
+  precisionPoints: 155,
   stepsPerFrame: 5,
-
+  animate: false,  
 });
 
 </script>

@@ -16,7 +16,7 @@ let canvas = null;
 let rad = 0;
 
 const stepRad = computed(() => {
-    return 2 * Math.PI / props.state.numPoints;
+    return 2 * Math.PI / props.state.precisionPoints;
 });
 
 let lastX = null;
@@ -46,7 +46,7 @@ watch(
     () => [
         props.state.n, 
         props.state.d, 
-        props.state.numPoints
+        props.state.precisionPoints
     ], () => {
         restartDrawing();
     }
