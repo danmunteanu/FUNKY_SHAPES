@@ -6,18 +6,20 @@ import Canvas from './components/Canvas.vue';
 let state = reactive({
   n: 1,
   d: 1,
-  numPoints: 35,
-  animate: true,
+  numPoints: 55,
+  animate: false,
+  max_n: 16,
+  max_d: 16,
 });
 
 </script>
 
 <template>
-  <div class="grid grid-cols-4 gap-4 px-5 mt-5">
-    <div class="col-span-2">
+  <div class="h-screen grid grid-cols-3 gap-4 px-5 mt-5">
+    <div class="col-span-1 h-full">
       <Editors :state="state" />
     </div>
-    <div class="col-span-2">
+    <div class="col-span-2 h-full">
       <Canvas :state="state" />
     </div>
   </div>

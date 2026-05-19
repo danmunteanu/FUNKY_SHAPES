@@ -32,16 +32,18 @@ const emit = defineEmits([
                             v-model="props.state.n"
                             id="number_n"
                             :min="1"
-                            :max="6"
+                            :max="state.max_n"
+                            showButtons
+                            highlightOnFocus
                         />
                     </InputGroup>
                 </div>
                 <div class="flex-auto">
-                    <Slider v-model="props.state.n" :min="1" :max="6" class="mt-5" fluid/>
+                    <Slider v-model="props.state.n" :min="1" :max="state.max_n" class="mt-5" fluid/>
                 </div>
             </div>
 
-            <div class="flex gap-6">
+            <div class="flex gap-6 mt-5 mb-5">
                 <div class="w-32">
                     <InputGroup>
                         <InputGroupAddon>
@@ -51,12 +53,14 @@ const emit = defineEmits([
                             v-model="props.state.d"
                             id="number_d"
                             :min="1"
-                            :max="6"
+                            :max="state.max_d"
+                            showButtons
+                            highlightOnFocus
                         />
                     </InputGroup>
                 </div>
                 <div class="flex-auto">
-                    <Slider v-model="props.state.d" :min="1" :max="6" class="mt-5"/>
+                    <Slider v-model="props.state.d" :min="1" :max="state.max_d" class="mt-5"/>
                 </div>
             </div>
         </template>

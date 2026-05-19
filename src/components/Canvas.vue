@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import p5 from 'p5';
+import Card from 'primevue/card';
 
 const props = defineProps({
     state: Object,
@@ -43,7 +44,12 @@ watch(
 
 function setup(p)
 {
-    canvas = p.createCanvas(720, 400);
+    const width = canvasContainer.value.clientWidth;
+    const height = canvasContainer.value.clientHeight;
+
+    console.log(`${width}x${height}`);
+
+    canvas = p.createCanvas(width, height);
     canvas.mousePressed(() => {
         mousePressed(p);
     });
@@ -51,9 +57,9 @@ function setup(p)
     p.background(0);
     p.colorMode(p.HSB);
     p.textSize(20);
-
-    p.stroke('white');
-    p.strokeWeight(2);
+    p.colorMode(p.HSB);
+    p.stroke('yellow');
+    p.strokeWeight(3);
 
     p.noLoop();
 
@@ -120,13 +126,18 @@ function restartDrawing()
 </script>
 
 <template>
-    <div>
-        <div class="text-2xl mb-4">
+    <Card class="h-full flex flex-col">
+        <template #title>
             Canvas
-        </div>
+        </template>
 
-        <div ref="canvasContainer"></div>
-
-        <!-- <pre>{{props}}</pre> -->
-    </div>
+        <template #content>
+            <div class="h-full min-h-0">
+                <div
+                    ref="canvasContainer"
+                    class="w-full h-full min-h-[300px]"
+                />
+            </div>
+        </template>
+    </Card>
 </template>
