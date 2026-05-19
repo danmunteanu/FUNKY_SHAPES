@@ -27,9 +27,12 @@ onMounted(() => {
 
     }, canvasContainer.value);
 
+    window.addEventListener('resize', resizeCanvas);
 });
 
 onBeforeUnmount(() => {
+    window.removeEventListener('resize', resizeCanvas);
+    
     if (p5Instance) {
         p5Instance.remove();
     }
@@ -101,6 +104,20 @@ function mousePressed(p)
 function keyPressed(p)
 {
     p.redraw();
+}
+
+function resizeCanvas()
+{
+    if (!p5Instance || !canvasContainer.value) {
+        return;
+    }
+
+    const width = canvasContainer.value.clientWidth;
+    const height = canvasContainer.value.clientHeight;
+
+    p5Instance.resizeCanvas(width, height);
+
+    restartDrawing();
 }
 
 function restartDrawing()

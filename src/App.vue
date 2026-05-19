@@ -15,7 +15,7 @@ let state = reactive({
 </script>
 
 <template>
-  <div class="h-screen grid grid-cols-4 gap-4 px-5 mt-5">
+  <div class="h-screen grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 px-5 mt-5">
     <div class="col-span-1 h-full">
       <Editors :state="state" />
     </div>
