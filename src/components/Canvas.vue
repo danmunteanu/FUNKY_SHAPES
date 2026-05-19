@@ -22,12 +22,14 @@ const stepRad = computed(() => {
 let lastX = null;
 let lastY = null;
 
+//  Download image name
+const imageName = 'funky-shape';
+
 onMounted(() => {
     p5Instance = new p5((p) => {
 
         p.setup = () => setup(p);
         p.draw = () => draw(p);
-        // p.keyPressed = () => keyPressed(p);
 
     }, canvasContainer.value);
 
@@ -54,16 +56,15 @@ watch(
 
 function setup(p)
 {
+    //  Create canvas
     const width = canvasContainer.value.clientWidth;
     const height = canvasContainer.value.clientHeight;
-
-    // console.log(`${width}x${height}`);
-
     canvas = p.createCanvas(width, height);
-    canvas.mousePressed(() => {
-        mousePressed(p);
-    });
+    
+    //  Make the canvas scrollable
+    canvas.elt.style.pointerEvents = 'none';
 
+    //  Setup p5 instance
     p.background(255);
     p.colorMode(p.HSB);
     p.textSize(20);
@@ -73,6 +74,7 @@ function setup(p)
 
     p.noLoop();
 
+    //  Draw!
     restartDrawing();
 }
 
@@ -103,16 +105,6 @@ function draw(p)
     }
 }
 
-function mousePressed(p)
-{
-    // restartDrawing();
-}
-
-function keyPressed(p)
-{
-    // p.redraw();
-}
-
 function resizeCanvas()
 {
     if (!p5Instance || !canvasContainer.value) {
@@ -129,6 +121,7 @@ function resizeCanvas()
 
 function restartDrawing()
 {
+    //  reset angle
     rad = 0;
 
     lastX = null;
@@ -143,9 +136,11 @@ function restartDrawing()
     p5Instance.noLoop();
 
     if (props.state.animate) {
+        //  Animate shape
         p5Instance.loop();
     }
     else {
+        //  Instant draw shape
         while (rad <= 2 * Math.PI * props.state.d) {
             draw(p5Instance);
         }
@@ -158,7 +153,7 @@ function downloadCanvas()
         return;
     }
 
-    p5Instance.saveCanvas('funky-shape', 'png');
+    p5Instance.saveCanvas(imageName, 'png');
 }
 </script>
 
