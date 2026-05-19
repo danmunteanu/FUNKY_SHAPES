@@ -36,8 +36,12 @@ onBeforeUnmount(() => {
 });
 
 watch(
-    () => [props.state.n, props.state.d, props.state.numPoints],
-    () => {
+    () => [
+        props.state.n, 
+        props.state.d, 
+        props.state.numPoints
+    ], () => {
+        stepRad = 2 * Math.PI  / props.state.numPoints
         restartDrawing();
     }
 );
@@ -47,18 +51,18 @@ function setup(p)
     const width = canvasContainer.value.clientWidth;
     const height = canvasContainer.value.clientHeight;
 
-    console.log(`${width}x${height}`);
+    // console.log(`${width}x${height}`);
 
     canvas = p.createCanvas(width, height);
     canvas.mousePressed(() => {
         mousePressed(p);
     });
 
-    p.background(0);
+    p.background(255);
     p.colorMode(p.HSB);
     p.textSize(20);
     p.colorMode(p.HSB);
-    p.stroke('yellow');
+    p.stroke('blue');
     p.strokeWeight(3);
 
     p.noLoop();
@@ -110,7 +114,7 @@ function restartDrawing()
         return;
     }
 
-    p5Instance.background(0);
+    p5Instance.background(255);
 
     p5Instance.noLoop();
 
@@ -126,7 +130,8 @@ function restartDrawing()
 </script>
 
 <template>
-    <Card class="h-full flex flex-col">
+    <!-- <pre>{{ props }}</pre> -->
+    <Card class="flex flex-col">
         <template #title>
             Canvas
         </template>
@@ -135,9 +140,9 @@ function restartDrawing()
             <div class="h-full min-h-0">
                 <div
                     ref="canvasContainer"
-                    class="w-full h-full min-h-[300px]"
+                    class="w-full h-full min-h-[500px]"
                 />
             </div>
         </template>
-    </Card>
+    </Card>    
 </template>

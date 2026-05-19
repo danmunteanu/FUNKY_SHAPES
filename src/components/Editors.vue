@@ -22,8 +22,8 @@ const emit = defineEmits([
     <Card>
         <template #title>Editors</template>
         <template #content>
-            <div class="flex gap-6">
-                <div class="w-32 flex-none">
+            <div class="flex gap-6 mt-3">
+                <div class="w-32 flex-none shadow-xl">
                     <InputGroup>
                         <InputGroupAddon>
                             <label for="number_n">N:</label>
@@ -38,13 +38,13 @@ const emit = defineEmits([
                         />
                     </InputGroup>
                 </div>
-                <div class="flex-auto">
-                    <Slider v-model="props.state.n" :min="1" :max="state.max_n" class="mt-5" fluid/>
+                <div class="flex-auto mt-5">
+                    <Slider v-model="props.state.n" :min="1" :max="state.max_n" fluid/>
                 </div>
             </div>
 
             <div class="flex gap-6 mt-5 mb-5">
-                <div class="w-32">
+                <div class="w-32 shadow-xl">
                     <InputGroup>
                         <InputGroupAddon>
                             <label for="number_d">D:</label>
@@ -77,13 +77,17 @@ const emit = defineEmits([
                         Animate
                     </label>
                 </div>
-                <div class="flex-auto">
+                <div class="grow">
+
+                </div>
+                <div class="w-32 shadow-xl">
                     <InputNumber
                         v-model="props.state.numPoints"
                         id="number_d"
                         :min="5"
                         :max="55"
                         :step="5"
+                        showButtons
                         fluid
                     />
                 </div>
