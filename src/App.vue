@@ -13,8 +13,12 @@ let state = reactive({
 </script>
 
 <template>
-  <div class="grid grid-cols-4 gap-4">
-    <Editors :state="state" />
-    <Canvas :state="state" />
+  <div class="grid grid-cols-4 gap-4 px-5 mt-5">
+    <div class="col-span-2">
+      <Editors :state="state" />
+    </div>
+    <div class="col-span-2">
+      <Canvas :state="state" />
+    </div>
   </div>
 </template>

@@ -22,8 +22,8 @@ const emit = defineEmits([
     <Card>
         <template #title>Editors</template>
         <template #content>
-            <div class="grid grid-cols-2 gap-4 px-6 mt-10">
-                <div>
+            <div class="flex gap-6">
+                <div class="w-32 flex-none">
                     <InputGroup>
                         <InputGroupAddon>
                             <label for="number_n">N:</label>
@@ -35,9 +35,14 @@ const emit = defineEmits([
                             :max="6"
                         />
                     </InputGroup>
-                    <Slider v-model="props.state.n" :min="1" :max="6" class="mt-5"/>
                 </div>
-                <div>
+                <div class="flex-auto">
+                    <Slider v-model="props.state.n" :min="1" :max="6" class="mt-5" fluid/>
+                </div>
+            </div>
+
+            <div class="flex gap-6">
+                <div class="w-32">
                     <InputGroup>
                         <InputGroupAddon>
                             <label for="number_d">D:</label>
@@ -49,9 +54,15 @@ const emit = defineEmits([
                             :max="6"
                         />
                     </InputGroup>
+                </div>
+                <div class="flex-auto">
                     <Slider v-model="props.state.d" :min="1" :max="6" class="mt-5"/>
                 </div>
-                <div class="flex items-center gap-2">
+            </div>
+        </template>
+        <template #footer>
+            <div class="flex gap-6 items-center">
+                <div class="w-32 flex-none">
                     <Checkbox
                         v-model="state.animate"
                         inputId="animate"
@@ -62,15 +73,15 @@ const emit = defineEmits([
                         Animate
                     </label>
                 </div>
-                <div class="flex items-center gap-2">
-                <InputNumber
-                    v-model="props.state.numPoints"
-                    id="number_d"
-                    :min="5"
-                    :max="55"
-                    :step="5"
-                    fluid
-                />
+                <div class="flex-auto">
+                    <InputNumber
+                        v-model="props.state.numPoints"
+                        id="number_d"
+                        :min="5"
+                        :max="55"
+                        :step="5"
+                        fluid
+                    />
                 </div>
             </div>
         </template>
