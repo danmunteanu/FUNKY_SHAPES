@@ -117,8 +117,9 @@ function downloadSpriteSheet()
 
                 <div class="grow"></div>
 
-                <Button
-                    label="Get Spritesheet"
+                <!-- Re-enable this when you need to regenerate the sprite sheet -->
+                <Button v-if="false"
+                    label="Get Sprite Sheet"
                     size="small"
                     severity="primary"
                     class="uppercase"
@@ -129,7 +130,7 @@ function downloadSpriteSheet()
 
         <template #content>
             <div
-                class="grid gap-2"
+                class="grid gap-2 mt-3"
                 :style="{
                     gridTemplateColumns: `repeat(${props.state.max_n}, minmax(0, 1fr))`
                 }"
