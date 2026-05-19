@@ -163,14 +163,14 @@ function downloadCanvas()
         <template #title>
             <div class="flex items-center">
                 <div class="text-xl font-semibold">
-                    Canvas
+                    Shape
                 </div>
 
                 <div class="grow"></div>
 
                 <Button
                     size="small"
-                    severity="info"
+                    severity="primary"
                     label="Download"
                     class="uppercase"
                     @click="downloadCanvas"
