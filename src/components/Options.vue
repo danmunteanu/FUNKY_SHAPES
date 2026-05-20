@@ -91,7 +91,7 @@ function getCellSpriteStyle(index)
 
     return {
         backgroundImage: `url(${spriteSheetUrl})`,
-        backgroundSize: `${props.state.max_n * 100}% ${props.state.max_d * 100}%`,
+        backgroundSize: backgroundSize.value,
         backgroundPosition: `${col * 100 / (props.state.max_n - 1)}% ${row * 100 / (props.state.max_d - 1)}%`,
     };
 }
@@ -127,6 +127,10 @@ function getShapeKey(n, d)
     return `${n / g}:${d / g}`;
 }
 
+const backgroundSize = computed(() => {
+    return `${props.state.max_n * 100}% ${props.state.max_d * 100}%`;
+});
+
 const uniqueCells = computed(() => {
     const seen = new Set();
     const cells = [];
@@ -141,10 +145,13 @@ const uniqueCells = computed(() => {
 
             seen.add(key);
 
+            const index = (d - 1) * props.state.max_n + n;
+
             cells.push({
                 n,
                 d,
-                index: (d - 1) * props.state.max_n + n,
+                index,
+                style: getCellSpriteStyle(index),
             });
         }
     }
@@ -178,15 +185,16 @@ const uniqueCells = computed(() => {
             <div
                 class="grid gap-2 mt-3"
                 :style="{
-                    gridTemplateColumns: `repeat(${props.state.max_n}, minmax(0, 1fr))`
+                    gridTemplateColumns: `repeat(auto-fill, minmax(48px, 1fr))`
                 }"
             >
                 <button
                     v-for="cell in uniqueCells"
+                    v-memo="[cell.n, cell.d, cell.index]"
                     :key="`${cell.n}:${cell.d}`"
                     type="button"
                     class="aspect-square border rounded bg-no-repeat"
-                    :style="getCellSpriteStyle(cell.index)"
+                    :style="cell.style"
                     @click="selectCell(cell.d, cell.n)"
                 >
                 </button>
