@@ -21,21 +21,31 @@ const props = defineProps({
             <div class="font-semibold text-xl">Parameters</div>
         </template>
         <template #content>
-            <div class="grid grid-cols-2 md:grid-cols-1 xl:grid-cols-2 gap-4 items-center mt-3">
+            <div class="grid grid-cols-1 gap-4 items-center mt-3">
                 <InputGroup class="w-full min-w-0">
-                    <InputGroupAddon>
-                        <label for="number_n">N:</label>
+                    <InputGroupAddon class="w-32">
+                        <label for="number_n" class="text-xs">Frequency</label>
                     </InputGroupAddon>
 
                     <InputNumber
+                        class="flex-auto"
                         v-model="props.state.n"
                         id="number_n"
+                        size="small"
+                        buttonLayout="horizontal"
                         :min="1"
                         :max="state.max_n"
                         showButtons
                         highlightOnFocus
                         fluid
-                    />
+                    >
+                        <template #incrementbuttonicon>
+                            <span class="pi pi-plus text-sm" />
+                        </template>
+                        <template #decrementbuttonicon>
+                            <span class="pi pi-minus text-sm" />
+                        </template>
+                    </InputNumber>
                 </InputGroup>
 
                 <Slider
@@ -45,20 +55,32 @@ const props = defineProps({
                     class="w-full min-w-0 md:mt-3 md:mb-3"
                 />
 
+                <div class="mt-3"></div>
+
                 <InputGroup class="w-full min-w-0">
-                    <InputGroupAddon>
-                        <label for="number_d">D:</label>
+                    <InputGroupAddon class="w-32">
+                        <label for="number_d" class="text-xs">Divisor</label>
                     </InputGroupAddon>
 
                     <InputNumber
+                        class="flex-auto"
                         v-model="props.state.d"
                         id="number_d"
+                        size="small"
+                        buttonLayout="horizontal"
                         :min="1"
                         :max="state.max_d"
                         showButtons
                         highlightOnFocus
                         fluid
-                    />
+                    >
+                        <template #incrementbuttonicon>
+                            <span class="pi pi-plus text-sm" />
+                        </template>
+                        <template #decrementbuttonicon>
+                            <span class="pi pi-minus" />
+                        </template>
+                    </InputNumber>
                 </InputGroup>
 
                 <Slider
