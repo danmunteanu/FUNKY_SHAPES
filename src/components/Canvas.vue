@@ -3,6 +3,7 @@ import { ref, watch, computed, onMounted, onBeforeUnmount } from 'vue';
 import p5 from 'p5';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
+import SelectButton from 'primevue/selectbutton';
 
 const props = defineProps({
     state: Object,
@@ -24,6 +25,43 @@ let lastY = null;
 
 //  Download image name
 const imageName = 'funky-shape';
+
+const speedOptions = [
+    { 'label': 'Slow', 'value': 1 },
+    { 'label': 'Fast', 'value': 15 },
+    { 'label': 'Instant', 'value': 40 },
+];
+
+const speed = ref(speedOptions[1].value);
+
+watch(speed, (value) => {
+
+    props.state.stepsPerFrame = value;
+
+    if (value === speedOptions[2].value) {
+        props.state.animate = false;
+    } else {
+        props.state.animate = true;
+    }
+
+}, {
+    immediate: true
+});
+
+
+const precisionOptions = [
+    { label: 'Low', value: 30 },
+    { label: 'Medium', value: 70 },
+    { label: 'High', value: 150 },
+];
+
+const precision = ref(precisionOptions[1].value);
+
+watch(precision, (value) => {
+    props.state.precisionPoints = value;
+}, {
+    immediate: true
+});
 
 onMounted(() => {
     p5Instance = new p5((p) => {
@@ -183,11 +221,43 @@ function downloadCanvas()
         </template>
 
         <template #content>
-            <div class="h-full min-h-0">
+            <div class="flex flex-col gap-4">
                 <div
                     ref="canvasContainer"
-                    class="w-full h-full min-h-[480px]"
+                    class="w-full min-h-[400px]"
                 />
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-2">
+                        <label for="precision">Precision</label>
+
+                        <SelectButton
+                            inputId="precision"
+                            v-model="precision"
+                            :options="precisionOptions"
+                            optionLabel="label"
+                            optionValue="value"
+                            :allowEmpty="false"
+                            size="small"
+                            fluid
+                        />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="speed">Animation</label>
+
+                        <SelectButton
+                            inputId="speed"
+                            v-model="speed"
+                            :options="speedOptions"
+                            optionLabel="label"
+                            optionValue="value"
+                            :allowEmpty="false"
+                            size="small"
+                            fluid
+                        />
+                    </div>
+                </div>
             </div>
         </template>
     </Card>    
