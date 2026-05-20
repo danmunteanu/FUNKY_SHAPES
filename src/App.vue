@@ -28,7 +28,7 @@ let state = reactive({
     <div class="col-span-2 h-full md:mt-0 mt-5">
       <Canvas :state="state" />
     </div>
-    <div class="col-span-1 h-full">
+    <div class="col-span-1 h-full md:mt-0 mt-5">
       <Options :state="state" />
     </div>
   </div>
