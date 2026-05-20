@@ -1,4 +1,6 @@
 <script setup>
+import { computed } from 'vue';
+
 import Card from 'primevue/card';
 import Button from 'primevue/button';
 import spriteSheetUrl from '../../assets/funky-shapes-sprite-sheet.png';
@@ -105,6 +107,50 @@ function downloadSpriteSheet()
 
     link.click();
 }
+
+function gcd(a, b)
+{
+    while (b !== 0) {
+        const temp = b;
+
+        b = a % b;
+        a = temp;
+    }
+
+    return a;
+}
+
+function getShapeKey(n, d)
+{
+    const g = gcd(n, d);
+
+    return `${n / g}:${d / g}`;
+}
+
+const uniqueCells = computed(() => {
+    const seen = new Set();
+    const cells = [];
+
+    for (let d = 1; d <= props.state.max_d; d++) {
+        for (let n = 1; n <= props.state.max_n; n++) {
+            const key = getShapeKey(n, d);
+
+            if (seen.has(key)) {
+                continue;
+            }
+
+            seen.add(key);
+
+            cells.push({
+                n,
+                d,
+                index: (d - 1) * props.state.max_n + n,
+            });
+        }
+    }
+
+    return cells;
+});
 </script>
 
 <template>
@@ -136,17 +182,13 @@ function downloadSpriteSheet()
                 }"
             >
                 <button
-                    v-for="index in props.state.max_n * props.state.max_d"
-                    :key="index"
+                    v-for="cell in uniqueCells"
+                    :key="`${cell.n}:${cell.d}`"
                     type="button"
                     class="aspect-square border rounded bg-no-repeat"
-                    :style="getCellSpriteStyle(index)"
-                    @click="selectCell(
-                        Math.ceil(index / props.state.max_n),
-                        ((index - 1) % props.state.max_n) + 1
-                    )"
+                    :style="getCellSpriteStyle(cell.index)"
+                    @click="selectCell(cell.d, cell.n)"
                 >
-                    <!-- {{ index }} -->
                 </button>
             </div>
         </template>
