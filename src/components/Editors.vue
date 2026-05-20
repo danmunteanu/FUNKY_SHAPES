@@ -23,6 +23,14 @@ const props = defineProps({
             <div class="flex flex-col gap-2 mt-3">
                 <label for="number_n" class="text-sm">Frequency</label>
                 <div class="grid grid-cols-2 gap-5 items-center">
+                    <Slider
+                        v-model="props.state.n"
+                        :min="1"
+                        :max="state.max_n"
+                        class="w-full min-w-0 md:mt-3 md:mb-3"
+                        fluid
+                    />
+
                     <InputNumber
                         class="flex-auto"
                         v-model="props.state.n"
@@ -42,22 +50,21 @@ const props = defineProps({
                             <span class="pi pi-minus text-sm" />
                         </template>
                     </InputNumber>
-
-                    <Slider
-                        v-model="props.state.n"
-                        :min="1"
-                        :max="state.max_n"
-                        class="w-full min-w-0 md:mt-3 md:mb-3"
-                        fluid
-                    />
                 </div>
             </div>
 
             <div class="flex flex-col gap-2 mt-6">
                 <label for="number_d" class="text-sm">Divisor</label>
                 <div class="grid grid-cols-2 gap-5 items-center">
+                    <Slider
+                        v-model="props.state.d"
+                        :min="1"
+                        :max="state.max_d"
+                        class="flex-auto min-w-0 md:mt-3 md:mb-3"
+                    />
+
                     <InputNumber
-                        class="flex-auto"
+                        class="w-32 flex-none"
                         v-model="props.state.d"
                         id="number_d"
                         size="small"
@@ -75,13 +82,6 @@ const props = defineProps({
                             <span class="pi pi-minus" />
                         </template>
                     </InputNumber>
-
-                    <Slider
-                        v-model="props.state.d"
-                        :min="1"
-                        :max="state.max_d"
-                        class="w-full min-w-0 md:mt-3 md:mb-3"
-                    />
                 </div>
             </div>
         </template>
