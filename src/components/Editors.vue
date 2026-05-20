@@ -1,8 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
 import InputNumber from 'primevue/inputnumber';
-import InputGroup from 'primevue/inputgroup';
-import InputGroupAddon from 'primevue/inputgroupaddon';
 import Slider from 'primevue/slider';
 import Card from 'primevue/card';
 import FloatLabel from 'primevue/floatlabel';
@@ -20,13 +18,11 @@ const props = defineProps({
         <template #title>
             <div class="font-semibold text-xl">Parameters</div>
         </template>
-        <template #content>
-            <div class="grid grid-cols-1 gap-4 items-center mt-3">
-                <InputGroup class="w-full min-w-0">
-                    <InputGroupAddon class="w-32">
-                        <label for="number_n" class="text-xs">Frequency</label>
-                    </InputGroupAddon>
 
+        <template #content>
+            <div class="flex flex-col gap-2 mt-3">
+                <label for="number_n" class="text-sm">Frequency</label>
+                <div class="grid grid-cols-2 gap-5 items-center">
                     <InputNumber
                         class="flex-auto"
                         v-model="props.state.n"
@@ -46,22 +42,20 @@ const props = defineProps({
                             <span class="pi pi-minus text-sm" />
                         </template>
                     </InputNumber>
-                </InputGroup>
 
-                <Slider
-                    v-model="props.state.n"
-                    :min="1"
-                    :max="state.max_n"
-                    class="w-full min-w-0 md:mt-3 md:mb-3"
-                />
+                    <Slider
+                        v-model="props.state.n"
+                        :min="1"
+                        :max="state.max_n"
+                        class="w-full min-w-0 md:mt-3 md:mb-3"
+                        fluid
+                    />
+                </div>
+            </div>
 
-                <div class="mt-3"></div>
-
-                <InputGroup class="w-full min-w-0">
-                    <InputGroupAddon class="w-32">
-                        <label for="number_d" class="text-xs">Divisor</label>
-                    </InputGroupAddon>
-
+            <div class="flex flex-col gap-2 mt-6">
+                <label for="number_d" class="text-sm">Divisor</label>
+                <div class="grid grid-cols-2 gap-5 items-center">
                     <InputNumber
                         class="flex-auto"
                         v-model="props.state.d"
@@ -81,14 +75,14 @@ const props = defineProps({
                             <span class="pi pi-minus" />
                         </template>
                     </InputNumber>
-                </InputGroup>
 
-                <Slider
-                    v-model="props.state.d"
-                    :min="1"
-                    :max="state.max_d"
-                    class="w-full min-w-0 md:mt-3 md:mb-3"
-                />
+                    <Slider
+                        v-model="props.state.d"
+                        :min="1"
+                        :max="state.max_d"
+                        class="w-full min-w-0 md:mt-3 md:mb-3"
+                    />
+                </div>
             </div>
         </template>
     </Card>

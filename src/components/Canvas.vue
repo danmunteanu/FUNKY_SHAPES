@@ -221,28 +221,15 @@ function downloadCanvas()
         </template>
 
         <template #content>
+            <div
+                ref="canvasContainer"
+                class="w-full min-h-[400px]"
+            />
+        </template>
+
+        <template #footer>
             <div class="flex flex-col gap-4">
-                <div
-                    ref="canvasContainer"
-                    class="w-full min-h-[400px]"
-                />
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-3">
-                    <div class="flex flex-col gap-2">
-                        <label for="precision" class="text-sm">Precision</label>
-
-                        <SelectButton
-                            inputId="precision"
-                            v-model="precision"
-                            :options="precisionOptions"
-                            optionLabel="label"
-                            optionValue="value"
-                            :allowEmpty="false"
-                            size="small"
-                            fluid
-                        />
-                    </div>
-
                     <div class="flex flex-col gap-2">
                         <label for="speed" class="text-sm">Animation</label>
 
