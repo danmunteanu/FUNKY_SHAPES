@@ -227,9 +227,9 @@ function downloadCanvas()
                     class="w-full min-h-[400px]"
                 />
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-3">
                     <div class="flex flex-col gap-2">
-                        <label for="precision">Precision</label>
+                        <label for="precision" class="text-sm">Precision</label>
 
                         <SelectButton
                             inputId="precision"
@@ -244,7 +244,7 @@ function downloadCanvas()
                     </div>
 
                     <div class="flex flex-col gap-2">
-                        <label for="speed">Animation</label>
+                        <label for="speed" class="text-sm">Animation</label>
 
                         <SelectButton
                             inputId="speed"
