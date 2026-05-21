@@ -11,6 +11,8 @@ const props = defineProps({
 
 const spriteCellSize = 96;
 
+const enableSpriteSheet = false;
+
 function selectCell(row, col)
 {
     props.state.d = row;
@@ -50,23 +52,24 @@ function generateSpriteSheet()
 
 function drawShapeThumbnail(ctx, n, d, offsetX, offsetY, size)
 {
-    const precision = 75;
+    const precision = 125;
     const stepRad = 2 * Math.PI / precision;
     const scale = size * 0.38;
+    const endRad = 2 * Math.PI * d;
 
     let rad = 0;
     let lastX = null;
-    let lastY = null;
 
     ctx.strokeStyle = 'blue';
     ctx.lineWidth = 2;
     ctx.beginPath();
 
-    while (rad <= 2 * Math.PI * d) {
-        const r = Math.cos(n * rad / d);
+    while (true) {
+        const currentRad = Math.min(rad, endRad);
+        const r = Math.cos(n * currentRad / d);
 
-        const x = offsetX + size / 2 + scale * r * Math.cos(rad);
-        const y = offsetY + size / 2 + scale * r * Math.sin(rad);
+        const x = offsetX + size / 2 + scale * r * Math.cos(currentRad);
+        const y = offsetY + size / 2 + scale * r * Math.sin(currentRad);
 
         if (lastX === null) {
             ctx.moveTo(x, y);
@@ -76,7 +79,10 @@ function drawShapeThumbnail(ctx, n, d, offsetX, offsetY, size)
         }
 
         lastX = x;
-        lastY = y;
+
+        if (currentRad >= endRad) {
+            break;
+        }
 
         rad += stepRad;
     }
@@ -171,8 +177,8 @@ const uniqueCells = computed(() => {
                 <div class="grow"></div>
 
                 <!-- Re-enable this when you need to regenerate the sprite sheet -->
-                <Button v-if="false"
-                    label="Get Sprite Sheet"
+                <Button v-if="enableSpriteSheet"
+                    label="Get SpriteSheet"
                     size="small"
                     severity="primary"
                     class="uppercase"
