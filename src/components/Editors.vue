@@ -22,25 +22,23 @@ const props = defineProps({
         <template #content>
             <div class="flex flex-col gap-2 mt-3">
                 <label for="number_n" class="text-sm">Frequency</label>
-                <div class="grid grid-cols-2 gap-5 items-center">
+                <div class="flex gap-5 items-center">
                     <Slider
                         v-model="props.state.n"
                         :min="1"
                         :max="state.max_n"
-                        class="w-full min-w-0 md:mt-3 md:mb-3"
+                        class="flex-none w-64 sm:w-108 md:w-32 xl:w-48 md:mt-3 md:mb-3"
                         fluid
                     />
 
                     <InputNumber
-                        class="flex-auto"
+                        :disabled="true"
                         v-model="props.state.n"
                         id="number_n"
                         size="small"
-                        buttonLayout="horizontal"
                         :min="1"
                         :max="state.max_n"
-                        showButtons
-                        highlightOnFocus
+                        class="flex-auto"
                         fluid
                     >
                         <template #incrementbuttonicon>
@@ -55,24 +53,22 @@ const props = defineProps({
 
             <div class="flex flex-col gap-2 mt-6">
                 <label for="number_d" class="text-sm">Divisor</label>
-                <div class="grid grid-cols-2 gap-5 items-center">
+                <div class="flex gap-5 items-center">
                     <Slider
                         v-model="props.state.d"
                         :min="1"
                         :max="state.max_d"
-                        class="flex-auto min-w-0 md:mt-3 md:mb-3"
+                        class="flex-none w-64 sm:w-108 md:w-32 xl:w-48 md:mt-3 md:mb-3"
                     />
 
                     <InputNumber
-                        class="w-32 flex-none"
+                        :disabled="true"
                         v-model="props.state.d"
                         id="number_d"
                         size="small"
-                        buttonLayout="horizontal"
                         :min="1"
                         :max="state.max_d"
-                        showButtons
-                        highlightOnFocus
+                        class="flex-auto"
                         fluid
                     >
                         <template #incrementbuttonicon>

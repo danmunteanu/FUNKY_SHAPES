@@ -34,6 +34,14 @@ const speedOptions = [
 
 const speed = ref(speedOptions[1].value);
 
+const precisionOptions = [
+    { label: 'Low', value: 30 },
+    { label: 'Medium', value: 70 },
+    { label: 'High', value: 150 },
+];
+
+const precision = ref(precisionOptions[1].value);
+
 watch(speed, (value) => {
 
     props.state.stepsPerFrame = value;
@@ -47,15 +55,6 @@ watch(speed, (value) => {
 }, {
     immediate: true
 });
-
-
-const precisionOptions = [
-    { label: 'Low', value: 30 },
-    { label: 'Medium', value: 70 },
-    { label: 'High', value: 150 },
-];
-
-const precision = ref(precisionOptions[1].value);
 
 watch(precision, (value) => {
     props.state.precisionPoints = value;
@@ -237,6 +236,21 @@ function downloadCanvas()
                             inputId="speed"
                             v-model="speed"
                             :options="speedOptions"
+                            optionLabel="label"
+                            optionValue="value"
+                            :allowEmpty="false"
+                            size="small"
+                            fluid
+                        />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="precision" class="text-sm">Precision</label>
+
+                        <SelectButton
+                            inputId="precision"
+                            v-model="precision"
+                            :options="precisionOptions"
                             optionLabel="label"
                             optionValue="value"
                             :allowEmpty="false"
