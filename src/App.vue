@@ -25,6 +25,14 @@ let state = reactive({
 
 <template>
   <div class="min-h-dvh flex flex-col">
+    <section class="sr-only" aria-label="About Funky Shapes">
+      <h1>Funky Shapes</h1>
+      <p>
+        Funky Shapes is a free online geometry shape generator, mandala maker,
+        and 2D shape maker for drawing colorful mathematical shapes.
+      </p>
+    </section>
+
     <div class="grow grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 md:gap-4 md:content-start lg:content-normal px-5 mt-5 xl:px-22">
       <div class="col-span-1 h-full md:col-start-1 md:row-start-1 lg:col-start-auto lg:row-start-auto">
         <Editors :state="state" />
