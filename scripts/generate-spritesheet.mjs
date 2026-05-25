@@ -1,3 +1,15 @@
+/*
+ * Generate the thumbnail sprite sheet used by the Options panel.
+ *
+ * The app displays many tiny shape previews from one PNG instead of drawing
+ * every thumbnail at runtime. This script builds that PNG from the same shared
+ * shape math used by the main canvas, renders it through a real browser canvas
+ * for smooth anti-aliased lines, and writes the result to the assets folder.
+ *
+ * Run it with:
+ * npm run spritesheet
+ */
+
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
