@@ -37,10 +37,10 @@ const speed = ref(speedOptions[1].value);
 const precisionOptions = [
     { label: 'Low', value: 30 },
     { label: 'Medium', value: 70 },
-    { label: 'High', value: 150 },
+    { label: 'High', value: 150 },  //  this is not relevant as it's replaced with instant drawing
 ];
 
-const precision = ref(precisionOptions[1].value);
+const precision = ref(precisionOptions[2].value);
 
 watch(speed, (value) => {
 
