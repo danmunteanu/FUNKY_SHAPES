@@ -22,6 +22,7 @@ let currentPointIndex = 1;
 let lastCanvasWidth = 0;
 let lastCanvasHeight = 0;
 let restartFrame = null;
+let resizeObserver = null;
 
 //  Download image name
 const imageName = 'funky-shape';
@@ -84,11 +85,14 @@ onMounted(() => {
 
     }, canvasContainer.value);
 
-    window.addEventListener('resize', resizeCanvas);
+    resizeObserver = new ResizeObserver(resizeCanvas);
+    resizeObserver.observe(canvasContainer.value);
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', resizeCanvas);
+    if (resizeObserver) {
+        resizeObserver.disconnect();
+    }
 
     if (restartFrame !== null) {
         cancelAnimationFrame(restartFrame);
