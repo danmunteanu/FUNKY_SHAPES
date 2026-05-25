@@ -23,6 +23,7 @@ let lastCanvasWidth = 0;
 let lastCanvasHeight = 0;
 let restartFrame = null;
 let resizeObserver = null;
+let canvasReady = false;
 
 //  Download image name
 const imageName = 'funky-shape';
@@ -124,6 +125,7 @@ function setup(p)
 
     lastCanvasWidth = width;
     lastCanvasHeight = height;
+    canvasReady = true;
     
     //  Make the canvas scrollable
     canvas.elt.style.pointerEvents = 'none';
@@ -138,7 +140,7 @@ function setup(p)
     p.noLoop();
 
     //  Draw!
-    scheduleRestartDrawing();
+    restartDrawing();
 }
 
 function draw(p)
@@ -168,7 +170,7 @@ function draw(p)
 
 function resizeCanvas()
 {
-    if (!p5Instance || !canvasContainer.value) {
+    if (!canvasReady || !p5Instance || !canvasContainer.value) {
         return;
     }
 
@@ -189,6 +191,10 @@ function resizeCanvas()
 
 function scheduleRestartDrawing()
 {
+    if (!canvasReady) {
+        return;
+    }
+
     if (restartFrame !== null) {
         cancelAnimationFrame(restartFrame);
     }
@@ -204,7 +210,7 @@ function restartDrawing()
     finished = false;
     currentPointIndex = 1;
 
-    if (!p5Instance) {
+    if (!canvasReady || !p5Instance) {
         return;
     }
 
