@@ -46,6 +46,7 @@ function commitDivisor()
                         :max="state.max_n"
                         class="flex-none w-64 sm:w-108 md:w-32 xl:w-44 md:mt-3 md:mb-3"
                         fluid
+                        @click="commitFrequency"
                         @slideend="commitFrequency"
                     />
 
@@ -77,6 +78,7 @@ function commitDivisor()
                         :min="1"
                         :max="state.max_d"
                         class="flex-none w-64 sm:w-108 md:w-32 xl:w-44 md:mt-3 md:mb-3"
+                        @click="commitDivisor"
                         @slideend="commitDivisor"
                     />
 

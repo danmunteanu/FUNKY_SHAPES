@@ -341,6 +341,7 @@ function downloadCanvas()
                             :min="1"
                             :max="9"
                             class="mt-3"
+                            @click="commitPenSize"
                             @slideend="commitPenSize"
                         />
                     </div>
