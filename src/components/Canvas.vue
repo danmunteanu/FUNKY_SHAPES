@@ -39,6 +39,7 @@ const precisionOptions = [
 
 const precision = ref(precisionOptions[2].value);
 const pickerColor = ref(props.state.color);
+const penSize = ref(props.state.lineThickness);
 
 watch(speed, (value) => {
 
@@ -66,6 +67,10 @@ watch(precision, (value) => {
 
 watch(() => props.state.color, (value) => {
     pickerColor.value = value;
+});
+
+watch(() => props.state.lineThickness, (value) => {
+    penSize.value = value;
 });
 
 onMounted(() => {
@@ -203,6 +208,11 @@ function commitPickerColor()
     props.state.color = pickerColor.value;
 }
 
+function commitPenSize()
+{
+    props.state.lineThickness = penSize.value;
+}
+
 function getDownloadName()
 {
     return `${imageName}_f${props.state.n}_d${props.state.d}`;
@@ -283,15 +293,16 @@ function downloadCanvas()
                 <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-5 md:mt-0">
                     <div class="flex flex-col gap-2">
                         <label for="line-thickness" class="text-sm">
-                            Pen Size: {{ props.state.lineThickness }}
+                            Pen Size: {{ penSize }}
                         </label>
 
                         <Slider
                             inputId="line-thickness"
-                            v-model="props.state.lineThickness"
+                            v-model="penSize"
                             :min="1"
                             :max="9"
                             class="mt-3"
+                            @slideend="commitPenSize"
                         />
                     </div>
 
