@@ -302,8 +302,8 @@ function downloadCanvas()
                     </div>
                 </div>
 
-                <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-5 md:mt-0">
-                    <div class="flex flex-col gap-2">
+                <div class="mt-3 flex items-start gap-5 md:mt-0 md:grid md:grid-cols-2">
+                    <div class="min-w-0 flex-1 md:flex-none flex flex-col gap-2">
                         <label for="line-thickness" class="text-sm">
                             Pen Size: {{ penSize }}
                         </label>
@@ -318,7 +318,7 @@ function downloadCanvas()
                         />
                     </div>
 
-                    <div class="mt-3 flex flex-col items-center gap-2 text-center md:mt-0">
+                    <div class="flex flex-none flex-col items-center gap-2 text-center">
                         <span class="text-sm">Color</span>
 
                         <ColorPicker
