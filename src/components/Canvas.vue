@@ -5,6 +5,7 @@ import Card from 'primevue/card';
 import Button from 'primevue/button';
 import SelectButton from 'primevue/selectbutton';
 import ColorPicker from 'primevue/colorpicker';
+import Slider from 'primevue/slider';
 import { buildShapePoints } from '../shape-points';
 
 const props = defineProps({
@@ -91,7 +92,8 @@ watch(
         props.state.n, 
         props.state.d, 
         props.state.precisionPoints,
-        props.state.color
+        props.state.color,
+        props.state.lineThickness
     ], () => {
         restartDrawing();
     }
@@ -112,7 +114,7 @@ function setup(p)
     p.colorMode(p.HSB);
     p.textSize(20);
     p.stroke(getShapeColor());
-    p.strokeWeight(3);
+    p.strokeWeight(props.state.lineThickness);
 
     p.noLoop();
 
@@ -178,6 +180,7 @@ function restartDrawing()
 
     p5Instance.background(255);
     p5Instance.stroke(getShapeColor());
+    p5Instance.strokeWeight(props.state.lineThickness);
     p5Instance.noLoop();
 
     if (props.state.animate) {
@@ -272,8 +275,22 @@ function downloadCanvas()
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-5 md:mt-0">
                     <div class="flex flex-col gap-2">
+                        <label for="line-thickness" class="text-sm">
+                            Pen Size: {{ props.state.lineThickness }}
+                        </label>
+
+                        <Slider
+                            inputId="line-thickness"
+                            v-model="props.state.lineThickness"
+                            :min="1"
+                            :max="9"
+                            class="mt-3"
+                        />
+                    </div>
+
+                    <div class="mt-3 flex flex-col items-center gap-2 text-center md:mt-0">
                         <span class="text-sm">Color</span>
 
                         <ColorPicker

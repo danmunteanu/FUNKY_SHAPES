@@ -19,6 +19,7 @@ let state = reactive({
   stepsPerFrame: 5,
   animate: false,  
   color: '0000ff',
+  lineThickness: 3,
 });
 
 </script>
