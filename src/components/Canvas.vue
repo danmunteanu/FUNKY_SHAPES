@@ -21,6 +21,7 @@ let shapePoints = [];
 let currentPointIndex = 1;
 let lastCanvasWidth = 0;
 let lastCanvasHeight = 0;
+let restartFrame = null;
 
 //  Download image name
 const imageName = 'funky-shape';
@@ -54,7 +55,7 @@ watch(speed, (value) => {
     }
 
     if (p5Instance) {
-        restartDrawing();
+        scheduleRestartDrawing();
     }
 
 }, {
@@ -88,6 +89,10 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     window.removeEventListener('resize', resizeCanvas);
+
+    if (restartFrame !== null) {
+        cancelAnimationFrame(restartFrame);
+    }
     
     if (p5Instance) {
         p5Instance.remove();
@@ -102,7 +107,7 @@ watch(
         props.state.color,
         props.state.lineThickness
     ], () => {
-        restartDrawing();
+        scheduleRestartDrawing();
     }
 );
 
@@ -129,7 +134,7 @@ function setup(p)
     p.noLoop();
 
     //  Draw!
-    restartDrawing();
+    scheduleRestartDrawing();
 }
 
 function draw(p)
@@ -175,7 +180,19 @@ function resizeCanvas()
 
     p5Instance.resizeCanvas(width, height);
 
-    restartDrawing();
+    scheduleRestartDrawing();
+}
+
+function scheduleRestartDrawing()
+{
+    if (restartFrame !== null) {
+        cancelAnimationFrame(restartFrame);
+    }
+
+    restartFrame = requestAnimationFrame(() => {
+        restartFrame = null;
+        restartDrawing();
+    });
 }
 
 function restartDrawing()
