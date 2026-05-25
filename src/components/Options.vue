@@ -164,17 +164,6 @@ const uniqueCells = computed(() => {
                 <div class="font-semibold text-xl">
                     Options
                 </div>
-
-                <div class="grow"></div>
-
-                <!-- Re-enable this when you need to regenerate the sprite sheet -->
-                <Button v-if="enableSpriteSheet"
-                    label="SpriteSheet"
-                    size="small"
-                    severity="info"
-                    class="uppercase"
-                    @click="downloadSpriteSheet"
-                />
             </div>
         </template>
 
@@ -196,6 +185,17 @@ const uniqueCells = computed(() => {
                 >
                 </button>
             </div>
+        </template>
+
+        <template #footer>
+            <!-- Re-enable this when you need to regenerate the sprite sheet -->
+            <Button v-if="enableSpriteSheet"
+                label="Generate Spritesheet"
+                size="small"
+                severity="info"
+                class="mt-3 w-full uppercase"
+                @click="downloadSpriteSheet"
+            />
         </template>
     </Card>
 </template>
