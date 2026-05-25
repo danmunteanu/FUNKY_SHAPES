@@ -19,6 +19,8 @@ let p5Instance = null;
 let finished = false;
 let shapePoints = [];
 let currentPointIndex = 1;
+let lastCanvasWidth = 0;
+let lastCanvasHeight = 0;
 
 //  Download image name
 const imageName = 'funky-shape';
@@ -110,6 +112,9 @@ function setup(p)
     const width = canvasContainer.value.clientWidth;
     const height = canvasContainer.value.clientHeight;
     const canvas = p.createCanvas(width, height);
+
+    lastCanvasWidth = width;
+    lastCanvasHeight = height;
     
     //  Make the canvas scrollable
     canvas.elt.style.pointerEvents = 'none';
@@ -160,6 +165,13 @@ function resizeCanvas()
 
     const width = canvasContainer.value.clientWidth;
     const height = canvasContainer.value.clientHeight;
+
+    if (width === lastCanvasWidth && height === lastCanvasHeight) {
+        return;
+    }
+
+    lastCanvasWidth = width;
+    lastCanvasHeight = height;
 
     p5Instance.resizeCanvas(width, height);
 
