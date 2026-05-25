@@ -13,7 +13,6 @@ let state = reactive({
 
   max_n: 6,
   max_d: 6,
-  max_num: 155,
 
   precisionPoints: 155,
   stepsPerFrame: 5,

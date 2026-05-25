@@ -1,10 +1,7 @@
 <script setup>
-import { ref, watch } from 'vue';
 import InputNumber from 'primevue/inputnumber';
 import Slider from 'primevue/slider';
 import Card from 'primevue/card';
-import FloatLabel from 'primevue/floatlabel';
-import SelectButton from 'primevue/selectbutton';
 
 const props = defineProps({
     state: Object,
