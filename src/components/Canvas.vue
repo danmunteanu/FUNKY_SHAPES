@@ -203,13 +203,18 @@ function commitPickerColor()
     props.state.color = pickerColor.value;
 }
 
+function getDownloadName()
+{
+    return `${imageName}_f${props.state.n}_d${props.state.d}`;
+}
+
 function downloadCanvas()
 {
     if (!p5Instance) {
         return;
     }
 
-    p5Instance.saveCanvas(imageName, 'png');
+    p5Instance.saveCanvas(getDownloadName(), 'png');
 }
 </script>
 
