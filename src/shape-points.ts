@@ -32,6 +32,9 @@ type ShapePointOptions = {
     offsetY?: number;
 };
 
+// Shrinks circles
+const circleScale = 0.8;
+
 /*
  * Build the final drawable points for a shape.
  *
@@ -50,8 +53,19 @@ export function buildShapePoints({
 }: ShapePointOptions): Point[] {
     const rawPoints = getFormulaPoints(n, d, precisionPoints);
     const bounds = getBounds(rawPoints);
+    const scaleMultiplier = isCircle(n, d) ? circleScale : 1;
 
-    return fitPointsToBox(rawPoints, bounds, width, height, padding, offsetX, offsetY);
+    return fitPointsToBox(rawPoints, bounds, width, height, padding, offsetX, offsetY, scaleMultiplier);
+}
+
+/*
+ * Detect the circle case in this formula family.
+ *
+ * When n and d match, the formula becomes r = cos(theta), which draws a
+ * circle. It looks larger than the other shapes, so we scale it down.
+ */
+function isCircle(n: number, d: number): boolean {
+    return n === d;
 }
 
 /*
@@ -122,7 +136,8 @@ function fitPointsToBox(
     height: number,
     padding: number,
     offsetX: number,
-    offsetY: number
+    offsetY: number,
+    scaleMultiplier: number
 ): Point[] {
     const shapeWidth = bounds.maxX - bounds.minX || 1;
     const shapeHeight = bounds.maxY - bounds.minY || 1;
@@ -131,7 +146,7 @@ function fitPointsToBox(
     const scale = Math.min(
         availableWidth / shapeWidth,
         availableHeight / shapeHeight
-    );
+    ) * scaleMultiplier;
     const shapeCenterX = bounds.minX + shapeWidth / 2;
     const shapeCenterY = bounds.minY + shapeHeight / 2;
     const boxCenterX = offsetX + width / 2;

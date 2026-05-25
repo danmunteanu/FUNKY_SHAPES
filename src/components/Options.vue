@@ -13,6 +13,7 @@ const props = defineProps({
 const spriteCellSize = 96;
 const spritePrecisionPoints = 150;
 
+//  Enable this when you must regenerate the sprite sheet
 const enableSpriteSheet = false;
 
 function selectCell(row, col)
@@ -188,7 +189,6 @@ const uniqueCells = computed(() => {
         </template>
 
         <template #footer>
-            <!-- Re-enable this when you need to regenerate the sprite sheet -->
             <Button v-if="enableSpriteSheet"
                 label="Generate Spritesheet"
                 size="small"
