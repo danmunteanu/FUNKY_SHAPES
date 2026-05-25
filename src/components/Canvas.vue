@@ -4,6 +4,7 @@ import p5 from 'p5';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
 import SelectButton from 'primevue/selectbutton';
+import { buildShapePoints } from '../shape-points';
 
 const props = defineProps({
     state: Object,
@@ -160,7 +161,13 @@ function restartDrawing()
         return;
     }
 
-    shapePoints = buildShapePoints(p5Instance.width, p5Instance.height);
+    shapePoints = buildShapePoints({
+        n: props.state.n,
+        d: props.state.d,
+        precisionPoints: props.state.precisionPoints,
+        width: p5Instance.width,
+        height: p5Instance.height,
+    });
 
     p5Instance.background(255);
     p5Instance.noLoop();
@@ -173,76 +180,6 @@ function restartDrawing()
             draw(p5Instance);
         }
     }
-}
-
-function buildShapePoints(canvasWidth, canvasHeight)
-{
-    const rawPoints = getFormulaPoints();
-    const bounds = getBounds(rawPoints);
-
-    return fitPointsToCanvas(rawPoints, bounds, canvasWidth, canvasHeight);
-}
-
-function getFormulaPoints()
-{
-    const points = [];
-    const endRad = 2 * Math.PI * props.state.d;
-    const stepRad = 2 * Math.PI / props.state.precisionPoints;
-
-    for (let rad = 0; rad < endRad; rad += stepRad) {
-        points.push(getFormulaPoint(rad));
-    }
-
-    points.push(getFormulaPoint(endRad));
-
-    return points;
-}
-
-function getFormulaPoint(rad)
-{
-    const r = Math.cos(props.state.n * rad / props.state.d);
-
-    return {
-        x: r * Math.cos(rad),
-        y: r * Math.sin(rad),
-    };
-}
-
-function getBounds(points)
-{
-    return points.reduce((bounds, point) => ({
-        minX: Math.min(bounds.minX, point.x),
-        maxX: Math.max(bounds.maxX, point.x),
-        minY: Math.min(bounds.minY, point.y),
-        maxY: Math.max(bounds.maxY, point.y),
-    }), {
-        minX: Infinity,
-        maxX: -Infinity,
-        minY: Infinity,
-        maxY: -Infinity,
-    });
-}
-
-function fitPointsToCanvas(points, bounds, canvasWidth, canvasHeight)
-{
-    const padding = 40;
-    const shapeWidth = bounds.maxX - bounds.minX || 1;
-    const shapeHeight = bounds.maxY - bounds.minY || 1;
-    const availableWidth = Math.max(canvasWidth - padding * 2, 1);
-    const availableHeight = Math.max(canvasHeight - padding * 2, 1);
-    const scale = Math.min(
-        availableWidth / shapeWidth,
-        availableHeight / shapeHeight
-    );
-    const shapeCenterX = bounds.minX + shapeWidth / 2;
-    const shapeCenterY = bounds.minY + shapeHeight / 2;
-    const canvasCenterX = canvasWidth / 2;
-    const canvasCenterY = canvasHeight / 2;
-
-    return points.map((point) => ({
-        x: canvasCenterX + (point.x - shapeCenterX) * scale,
-        y: canvasCenterY + (point.y - shapeCenterY) * scale,
-    }));
 }
 
 function downloadCanvas()

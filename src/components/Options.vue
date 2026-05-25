@@ -4,12 +4,14 @@ import { computed } from 'vue';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
 import spriteSheetUrl from '../../assets/funky-shapes-sprite-sheet.png';
+import { buildShapePoints } from '../shape-points';
 
 const props = defineProps({
     state: Object,
 });
 
 const spriteCellSize = 96;
+const spritePrecisionPoints = 150;
 
 const enableSpriteSheet = false;
 
@@ -52,40 +54,29 @@ function generateSpriteSheet()
 
 function drawShapeThumbnail(ctx, n, d, offsetX, offsetY, size)
 {
-    const precision = 125;
-    const stepRad = 2 * Math.PI / precision;
-    const scale = size * 0.38;
-    const endRad = 2 * Math.PI * d;
-
-    let rad = 0;
-    let lastX = null;
+    const points = buildShapePoints({
+        n,
+        d,
+        precisionPoints: spritePrecisionPoints,
+        width: size,
+        height: size,
+        padding: size * 0.12,
+        offsetX,
+        offsetY,
+    });
 
     ctx.strokeStyle = 'blue';
     ctx.lineWidth = 2;
     ctx.beginPath();
 
-    while (true) {
-        const currentRad = Math.min(rad, endRad);
-        const r = Math.cos(n * currentRad / d);
-
-        const x = offsetX + size / 2 + scale * r * Math.cos(currentRad);
-        const y = offsetY + size / 2 + scale * r * Math.sin(currentRad);
-
-        if (lastX === null) {
-            ctx.moveTo(x, y);
+    points.forEach((point, index) => {
+        if (index === 0) {
+            ctx.moveTo(point.x, point.y);
         }
         else {
-            ctx.lineTo(x, y);
+            ctx.lineTo(point.x, point.y);
         }
-
-        lastX = x;
-
-        if (currentRad >= endRad) {
-            break;
-        }
-
-        rad += stepRad;
-    }
+    });
 
     ctx.stroke();
 }
@@ -178,9 +169,9 @@ const uniqueCells = computed(() => {
 
                 <!-- Re-enable this when you need to regenerate the sprite sheet -->
                 <Button v-if="enableSpriteSheet"
-                    label="Get SpriteSheet"
+                    label="SpriteSheet"
                     size="small"
-                    severity="primary"
+                    severity="info"
                     class="uppercase"
                     @click="downloadSpriteSheet"
                 />
