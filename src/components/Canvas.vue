@@ -4,6 +4,7 @@ import p5 from 'p5';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
 import SelectButton from 'primevue/selectbutton';
+import ColorPicker from 'primevue/colorpicker';
 import { buildShapePoints } from '../shape-points';
 
 const props = defineProps({
@@ -36,6 +37,7 @@ const precisionOptions = [
 ];
 
 const precision = ref(precisionOptions[2].value);
+const pickerColor = ref(props.state.color);
 
 watch(speed, (value) => {
 
@@ -61,6 +63,10 @@ watch(precision, (value) => {
     immediate: true
 });
 
+watch(() => props.state.color, (value) => {
+    pickerColor.value = value;
+});
+
 onMounted(() => {
     p5Instance = new p5((p) => {
 
@@ -84,7 +90,8 @@ watch(
     () => [
         props.state.n, 
         props.state.d, 
-        props.state.precisionPoints
+        props.state.precisionPoints,
+        props.state.color
     ], () => {
         restartDrawing();
     }
@@ -104,7 +111,7 @@ function setup(p)
     p.background(255);
     p.colorMode(p.HSB);
     p.textSize(20);
-    p.stroke('blue');
+    p.stroke(getShapeColor());
     p.strokeWeight(3);
 
     p.noLoop();
@@ -170,6 +177,7 @@ function restartDrawing()
     });
 
     p5Instance.background(255);
+    p5Instance.stroke(getShapeColor());
     p5Instance.noLoop();
 
     if (props.state.animate) {
@@ -180,6 +188,16 @@ function restartDrawing()
             draw(p5Instance);
         }
     }
+}
+
+function getShapeColor()
+{
+    return `#${props.state.color}`;
+}
+
+function commitPickerColor()
+{
+    props.state.color = pickerColor.value;
 }
 
 function downloadCanvas()
@@ -250,6 +268,18 @@ function downloadCanvas()
                             :allowEmpty="false"
                             size="small"
                             fluid
+                        />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="flex flex-col gap-2">
+                        <span class="text-sm">Color</span>
+
+                        <ColorPicker
+                            v-model="pickerColor"
+                            class="w-fit"
+                            @hide="commitPickerColor"
                         />
                     </div>
                 </div>

@@ -18,6 +18,7 @@ let state = reactive({
   precisionPoints: 155,
   stepsPerFrame: 5,
   animate: false,  
+  color: '0000ff',
 });
 
 </script>
