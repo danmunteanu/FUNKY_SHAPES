@@ -1,4 +1,5 @@
 <script setup>
+import { ref, watch } from 'vue';
 import InputNumber from 'primevue/inputnumber';
 import Slider from 'primevue/slider';
 import Card from 'primevue/card';
@@ -7,6 +8,26 @@ const props = defineProps({
     state: Object,
 });
 
+const frequency = ref(props.state.n);
+const divisor = ref(props.state.d);
+
+watch(() => props.state.n, (value) => {
+    frequency.value = value;
+});
+
+watch(() => props.state.d, (value) => {
+    divisor.value = value;
+});
+
+function commitFrequency()
+{
+    props.state.n = frequency.value;
+}
+
+function commitDivisor()
+{
+    props.state.d = divisor.value;
+}
 </script>
 
 <template>
@@ -20,16 +41,17 @@ const props = defineProps({
                 <label for="number_n" class="text-sm">Frequency</label>
                 <div class="flex gap-5 items-center">
                     <Slider
-                        v-model="props.state.n"
+                        v-model="frequency"
                         :min="1"
                         :max="state.max_n"
                         class="flex-none w-64 sm:w-108 md:w-32 xl:w-44 md:mt-3 md:mb-3"
                         fluid
+                        @slideend="commitFrequency"
                     />
 
                     <InputNumber
                         :disabled="true"
-                        v-model="props.state.n"
+                        v-model="frequency"
                         id="number_n"
                         size="small"
                         :min="1"
@@ -51,15 +73,16 @@ const props = defineProps({
                 <label for="number_d" class="text-sm">Divisor</label>
                 <div class="flex gap-5 items-center">
                     <Slider
-                        v-model="props.state.d"
+                        v-model="divisor"
                         :min="1"
                         :max="state.max_d"
                         class="flex-none w-64 sm:w-108 md:w-32 xl:w-44 md:mt-3 md:mb-3"
+                        @slideend="commitDivisor"
                     />
 
                     <InputNumber
                         :disabled="true"
-                        v-model="props.state.d"
+                        v-model="divisor"
                         id="number_d"
                         size="small"
                         :min="1"
