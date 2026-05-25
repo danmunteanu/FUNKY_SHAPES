@@ -26,7 +26,7 @@ const props = defineProps({
                         v-model="props.state.n"
                         :min="1"
                         :max="state.max_n"
-                        class="flex-none w-64 sm:w-108 md:w-32 xl:w-32 md:mt-3 md:mb-3"
+                        class="flex-none w-64 sm:w-108 md:w-32 xl:w-44 md:mt-3 md:mb-3"
                         fluid
                     />
 
@@ -57,7 +57,7 @@ const props = defineProps({
                         v-model="props.state.d"
                         :min="1"
                         :max="state.max_d"
-                        class="flex-none w-64 sm:w-108 md:w-32 xl:w-32 md:mt-3 md:mb-3"
+                        class="flex-none w-64 sm:w-108 md:w-32 xl:w-44 md:mt-3 md:mb-3"
                     />
 
                     <InputNumber
