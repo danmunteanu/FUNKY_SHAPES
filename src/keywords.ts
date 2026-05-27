@@ -5,6 +5,14 @@ export const description = [
 ].join(' ')
 
 export const keywords = [
+  'rose mathematics',
+  'rose curve',
+  'rose graphs',
+  'rhodonea curve',
+  'rose curves',
+  'rose curve graph',
+  'graphing roses',
+  'graph rose polar equations',
   'mandala maker app',
   'mandala generator online free',
   'mandala generator online',
