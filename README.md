@@ -1,6 +1,7 @@
 # Funky Shapes
 
 Funky Shapes is a small Vue app for generating colorful geometric shapes from a polar formula. Users can adjust the shape parameters, animation speed, drawing precision, pen size, and color, then download the rendered shape as a PNG.
+See it live at [shapes](https://shapes.realityframeworks.com/)
 
 ## Tech Stack
 
